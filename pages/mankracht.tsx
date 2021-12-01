@@ -4,9 +4,20 @@ import { LayoutManKracht } from '../components/mankracht/LayoutManKracht';
 import { Column } from '../components/util/Column';
 import { Row } from '../components/util/Row';
 import { Spacer } from '../components/util/Spacer';
-import styles from './index.module.scss';
+import { SSIClient } from '../util/SSIClient';
+import styles from './mankracht.module.scss';
 
 const Home: NextPage = () => {
+  function checkIdentification() {
+    const SSI_ID = 'ssi_proto';
+    const SSI_SECRET = 'VzDNHwWUbn4F?GrV';
+    const client = new SSIClient(SSI_ID, SSI_SECRET, {
+      callbackUrl: 'http://localhost:3000/',
+    });
+    const url = client.issueUrl('SSI_PROTO_PASSPORT', { my: 'data' }, '12345');
+    console.log(url);
+  }
+
   return (
     <LayoutManKracht>
       <Row style={{ marginTop: 50 }}>
@@ -34,7 +45,7 @@ const Home: NextPage = () => {
               je mobiele telefoon.
             </p>
 
-            <Button>Controleer identiteit</Button>
+            <Button onClick={checkIdentification}>Controleer identiteit</Button>
           </Row>
 
           <Row className={styles.step} gap={20}>

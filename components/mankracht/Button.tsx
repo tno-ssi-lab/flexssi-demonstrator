@@ -2,25 +2,36 @@ import { CSSProperties, ReactNode } from 'react';
 import classes from '../../util/classes';
 import styles from './Button.module.scss';
 
-export function Button(props: {
+export function Button({
+  outlined,
+
+  className,
+  style,
+  children,
+
+  ...others
+}: {
   outlined?: boolean;
 
   className?: string;
   style?: CSSProperties;
   children?: ReactNode;
+
+  [x: string]: any;
 }) {
   return (
     <a
       className={classes(
         styles.button,
-        props.outlined ? styles.outlined : styles.filled,
-        props.className
+        outlined ? styles.outlined : styles.filled,
+        className
       )}
       style={{
-        ...props.style,
+        ...style,
       }}
+      {...others}
     >
-      {props.children}
+      {children}
     </a>
   );
 }
