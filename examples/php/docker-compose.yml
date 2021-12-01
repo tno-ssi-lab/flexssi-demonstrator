@@ -1,0 +1,17 @@
+version: '3'
+services:
+  phpdemo-php-server:
+    ports:
+      # - "80:80"
+      - "80"
+    container_name: phpdemo-php-server
+    build:
+      context: .
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.http.routers.demo.rule=Host(`phpdemo.demos.ssi-lab.nl`)"
+
+# networks:
+#   default:
+#     external:
+#       name: traefik

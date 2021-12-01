@@ -1,0 +1,6 @@
+{
+    "HOSTNAME": "http://localhost",
+    "SSI_SERVICE_ENDPOINT": "http://localhost:8080/#",
+    "SSI_SERVICE_MY_ORG_ID": "19a24acb-ef58-40c0-aa31-797ae2c71c5f",
+    "SSI_SERVICE_SHARED_SECRET": "ecb258b299a9571d571bb0109c31a6f8565c26459e74f192cc763f3ee88ea42b"
+}

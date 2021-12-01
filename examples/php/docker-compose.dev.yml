@@ -1,0 +1,9 @@
+version: '3'
+services:
+  phpdemo-php-server:
+    ports:
+      - "80:80"
+    container_name: phpdemo-php-server
+    build:
+      context: .
+

@@ -1,0 +1,21 @@
+.button {
+  display: inline-flex;
+  justify-content: center;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.filled {
+  background: #f73c6b;
+  color: white;
+  &:hover {
+    background: #c72b52;
+  }
+}
+
+.outlined {
+  border: 1px solid #f73c6b;
+  &:hover {
+    background: rgba(#c72b52, 0.2);
+  }
+}

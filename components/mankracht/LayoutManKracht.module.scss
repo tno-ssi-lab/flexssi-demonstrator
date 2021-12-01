@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Spartan:wght@400;500;700&display=swap');
+
+.main {
+  background: #ffd281;
+  font-family: Spartan;
+  min-height: 100vh;
+}
+
+.topBar {
+  padding: 20px 0;
+}
+
+.container {
+  max-width: 1200px;
+  padding: 0 20px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.nav {
+  a {
+    cursor: pointer;
+  }
+
+  a:not(.navActive):not(:hover) {
+    color: black;
+  }
+}
+
+.userInfo {
+  img {
+    width: 55px;
+    border-radius: 50%;
+  }
+}
