@@ -6,6 +6,7 @@ export function Row(
   props: PropsWithChildren<{
     gap?: number | string;
     centerY?: boolean;
+    centerX?: boolean;
 
     className?: string;
     style?: CSSProperties;
@@ -17,6 +18,7 @@ export function Row(
       style={{
         gap: props.gap ?? 10,
         alignItems: props.centerY ? 'center' : undefined,
+        justifyContent: props.centerX ? 'center' : undefined,
         ...props.style,
       }}
     >

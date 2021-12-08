@@ -1,0 +1,12 @@
+#myportal {
+  padding: 20px;
+
+  iframe {
+    position: fixed;
+    z-index: 99;
+    width: 80vw;
+    height: 80vh;
+    top: 10vh;
+    left: 10vw;
+  }
+}

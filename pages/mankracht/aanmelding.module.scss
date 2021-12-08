@@ -1,0 +1,27 @@
+.step {
+  p {
+    flex: 1;
+  }
+  > a {
+    min-width: 200px;
+  }
+
+  .success {
+    color: #17924a;
+    font-weight: bold;
+  }
+}
+
+.table {
+  tr {
+    & * + * {
+      padding-left: 10px;
+    }
+
+    th {
+      text-align: left;
+      font-weight: normal;
+      opacity: 0.5;
+    }
+  }
+}

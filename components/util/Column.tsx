@@ -15,7 +15,7 @@ export function Column(
     <div
       className={classes(styles.flexCol, props.className)}
       style={{
-        gap: props.gap,
+        gap: props.gap ?? 10,
         alignItems: props.centerX ? 'center' : undefined,
         ...props.style,
       }}

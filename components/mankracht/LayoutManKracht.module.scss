@@ -19,7 +19,8 @@
 
 .nav {
   a {
-    cursor: pointer;
+    // cursor: pointer;
+    cursor: not-allowed;
   }
 
   a:not(.navActive):not(:hover) {

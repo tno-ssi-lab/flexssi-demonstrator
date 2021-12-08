@@ -10,7 +10,7 @@ export type SSIData = Record<string, string | number | boolean>;
 
 export type SSIFunction = 'verify' | 'issue';
 
-enum ResponseStatus {
+export enum ResponseStatus {
   success = 'success',
   error = 'error',
   cancelled = 'cancelled',
@@ -146,4 +146,14 @@ export class SSIClient {
 
     return payload;
   }
+}
+
+export function createSSIClient() {
+  const SSI_ID = '33bdc59a-1759-41f0-9cc5-6af5c9fc49ad';
+  const SSI_SECRET =
+    '505d9c058e0811b522b0d780a7cd50cbe6a29719ab981c02451eda1dcdc75ebb';
+  return new SSIClient(SSI_ID, SSI_SECRET, {
+    callbackUrl:
+      typeof window != 'undefined' ? `${document.location}?token=` : '',
+  });
 }

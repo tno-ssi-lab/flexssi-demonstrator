@@ -5,17 +5,24 @@ import { Row } from '../util/Row';
 import { Spacer } from '../util/Spacer';
 import { Column } from '../util/Column';
 import Head from 'next/head';
+import { SystemMenu } from 'components/system/SystemMenu';
 
 export function LayoutManKracht(props: { children: ReactNode }) {
   return (
     <Column className={styles.main} centerX>
       <Head>
         <title>manKRACHT</title>
+        <link
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+          rel="stylesheet"
+        />
       </Head>
+
+      <SystemMenu />
 
       <div className={styles.container}>
         <Row centerY className={styles.topBar}>
-          <img src="img/manKRACHT.svg" />
+          <img src="/img/manKRACHT.svg" />
 
           <Spacer />
 
@@ -37,7 +44,7 @@ export function LayoutManKracht(props: { children: ReactNode }) {
               <a>Logout</a>
             </Column>
 
-            <img src="img/ahmed.jpg" />
+            <img src="/img/ahmed.jpg" />
           </Row>
         </Row>
 

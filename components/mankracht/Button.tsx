@@ -4,6 +4,7 @@ import styles from './Button.module.scss';
 
 export function Button({
   outlined,
+  disabled,
 
   className,
   style,
@@ -12,6 +13,7 @@ export function Button({
   ...others
 }: {
   outlined?: boolean;
+  disabled?: boolean;
 
   className?: string;
   style?: CSSProperties;
@@ -24,11 +26,13 @@ export function Button({
       className={classes(
         styles.button,
         outlined ? styles.outlined : styles.filled,
+        disabled ? styles.disabled : undefined,
         className
       )}
       style={{
         ...style,
       }}
+      title={disabled ? 'Niet beschikbaar in dit prototype' : undefined}
       {...others}
     >
       {children}
