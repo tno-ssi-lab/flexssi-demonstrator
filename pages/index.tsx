@@ -21,17 +21,26 @@ const HomePage: NextPage = () => {
 
           <li>
             <Link href="/mankracht/aanmelding">
-              <a>Aanmelding bij "manKRACHT" met paspoort gegevens</a>
+              <a>Aanmelding bij &quot;manKRACHT&quot; met paspoort gegevens</a>
             </Link>
           </li>
         </ul>
 
         <h3>
-          Voorbeeld flow 2: overdracht fase gegevens tussen arbeidsbureau's
+          Voorbeeld flow 2: overdracht fase gegevens tussen arbeidsbureau&apos;s
         </h3>
         <ul>
-          <li>Stuur fase gegevens van "manKRACHT" naar wallet</li>
-          <li>Lees deze fase gegevens in bij "FlexiForce"</li>
+          <li>
+            <Link href="/mankracht/werkhistorie">
+              <a>Stuur fase gegevens van &quot;manKRACHT&quot; naar wallet</a>
+            </Link>
+          </li>
+
+          <li>
+            <Link href="/flexiforce/portaal">
+              <a>Lees deze fase gegevens in bij &quot;FlexiForce&quot;</a>
+            </Link>
+          </li>
         </ul>
       </Column>
     </SystemLayout>

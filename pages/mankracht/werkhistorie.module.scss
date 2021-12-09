@@ -1,0 +1,63 @@
+.left {
+  flex: 1;
+  margin-left: -100px;
+  img {
+    max-width: 350px;
+  }
+}
+
+.stats {
+  align-items: stretch;
+  .stat {
+    label {
+      letter-spacing: 0.3px;
+      color: #737b7d;
+      min-height: 50px;
+
+      &.small {
+        font-size: 13px;
+      }
+    }
+
+    span {
+      font-size: 44px;
+      line-height: 49px;
+      letter-spacing: 0.2px;
+      font-weight: bold;
+    }
+  }
+}
+
+table.outer {
+  th,
+  td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  tr {
+    & * + * {
+      padding-left: 10px;
+    }
+
+    th {
+      text-align: left;
+      font-weight: normal;
+      opacity: 0.5;
+      &.bold {
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+table.outer {
+  > tbody > tr {
+    cursor: pointer;
+    &:hover {
+      background: rgba(black, 0.05);
+    }
+  }
+}
+table.inner {
+  margin-left: 40px;
+}
