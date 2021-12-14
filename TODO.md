@@ -13,7 +13,6 @@ Registration Response
   "sharedSecret": "505d9c058e0811b522b0d780a7cd50cbe6a29719ab981c02451eda1dcdc75ebb"
 }
 
-
 {
   "name": "SsiTest",
   "version": "0.0.1",
