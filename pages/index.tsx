@@ -11,6 +11,12 @@ const HomePage: NextPage = () => {
       <Column style={{ padding: 20 }} gap={30}>
         <h1>SSI prototype</h1>
 
+        <div className={styles.mobileWarning}>
+          Het lijkt erop dat je dit prototype op mobiel bekijkt. Het is de
+          bedoeling dat je deze pagina op een computer opent, en de wallet app
+          op je smartphone.
+        </div>
+
         <h3>Voorbeeld flow 1: aanmelding met paspoort verificatie</h3>
         <ul>
           <li>

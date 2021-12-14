@@ -1,0 +1,8 @@
+.mobileWarning {
+  @media (min-width: 639px) {
+    display: none;
+  }
+  padding: 10px;
+  background: rgba(rgb(228, 213, 4), 0.5);
+  border-radius: 10px;
+}
