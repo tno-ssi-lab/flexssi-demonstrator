@@ -5,44 +5,50 @@ import { LayoutManKracht } from 'components/mankracht/LayoutManKracht';
 import { Column } from 'components/util/Column';
 import { Row } from 'components/util/Row';
 import { Spacer } from 'components/util/Spacer';
-import { createSSIClient, ResponseStatus, SSIClient } from 'util/SSIClient';
+import { createCallbackUrl, createSSIClient } from 'util/SSIClient';
 import styles from './werkhistorie.module.scss';
+import { format as dateFormat } from 'date-fns';
 
 const client = createSSIClient();
+const lastIssuedKey = 'phase_info_last_issued';
 
 const WorkHistory: NextPage = () => {
-  function issue() {
-    const url = client.issueUrl(
-      'SsiTest2',
-      { firstName: 'Bert', lastName: 'Heuvel' },
-      '12345'
-    );
-    console.log(url);
-  }
+  // Last issued at
+  const [lastIssuedAt, setLastIssuedAt] = useState(
+    new Date('2021-01-01').getTime()
+  );
+  useEffect(() => {
+    const url = new URL(document.location.toString());
+    const lsValue = localStorage.getItem(lastIssuedKey);
 
-  function verify() {
-    const url = client.verifyUrl('SsiTest2', '12348');
+    if (url.searchParams.get('token') && lsValue) {
+      setLastIssuedAt(parseInt(lsValue));
+    }
+  }, []);
+
+  function issueCredential() {
+    const url = client.issueUrl(
+      'ssi_phase_info_v1',
+      {
+        currentPhase: 'Fase A',
+        weekNumber: 'Week 39 2021',
+        numberContracts: '2',
+        weeklyHours: '32 uur per week',
+        totalHours: 'totaal van 1120 uur',
+        currentIsOnCallWorker: 'NEE',
+        currentEmployer: 'WC Eend BV Kantoor Amsterdam',
+        currentWeeklyHours: '24 uur per week',
+      },
+      `${Date.now()}`,
+      createCallbackUrl()
+    );
+
+    const now = Date.now();
+    setLastIssuedAt(now);
+    localStorage.setItem(lastIssuedKey, `${now}`);
+
     document.location = url;
   }
-
-  // Check if we got JWT token from eassi callback
-  const [ssiData, setSsiData] = useState({
-    success: false,
-    firstName: '',
-    lastName: '',
-  });
-  useEffect(() => {
-    const token = new URL(document.location.toString()).searchParams.get(
-      'token'
-    );
-    if (!token) return;
-
-    const response = client.parseVerifyResponse(token);
-
-    if (response.status == ResponseStatus.success) {
-      setSsiData({ ...ssiData, ...response.data, success: true });
-    }
-  }, [ssiData]);
 
   // Allow opening table row
   const [openRow, setOpenRow] = useState(0);
@@ -67,10 +73,15 @@ const WorkHistory: NextPage = () => {
           <Row className={styles.stats} gap={50}>
             <Column className={styles.stat}>
               <label>Totaal</label>
+
               <span>1.120 uur</span>
-              <Button outlined>Stuur naar mijn wallet</Button>
+
+              <Button outlined onClick={issueCredential}>
+                Stuur naar mijn wallet
+              </Button>
+
               <label className={styles.small}>
-                Laatst gestuurd op ma. 3 mei 2021
+                Laatst gestuurd op {dateFormat(lastIssuedAt, 'd MMM yyyy')}
               </label>
             </Column>
 

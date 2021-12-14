@@ -18,9 +18,10 @@ export function Button({
   className?: string;
   style?: CSSProperties;
   children?: ReactNode;
-
-  [x: string]: any;
-}) {
+} & React.DetailedHTMLProps<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  HTMLAnchorElement
+>) {
   return (
     <a
       className={classes(
