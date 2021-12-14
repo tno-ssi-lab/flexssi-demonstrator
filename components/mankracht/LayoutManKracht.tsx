@@ -7,7 +7,10 @@ import { Column } from '../util/Column';
 import Head from 'next/head';
 import { SystemMenu } from 'components/system/SystemMenu';
 
-export function LayoutManKracht(props: { children: ReactNode }) {
+export function LayoutManKracht(props: {
+  children: ReactNode;
+  hideUserInfo?: boolean;
+}) {
   return (
     <Column className={styles.main} centerX>
       <Head>
@@ -38,14 +41,16 @@ export function LayoutManKracht(props: { children: ReactNode }) {
 
           <Spacer />
 
-          <Row className={styles.userInfo}>
-            <Column>
-              <div className={styles.name}>Ahmed Mehadi</div>
-              <a>Logout</a>
-            </Column>
+          {props.hideUserInfo !== true && (
+            <Row className={styles.userInfo}>
+              <Column>
+                <div className={styles.name}>Ahmed Mehadi</div>
+                <a>Logout</a>
+              </Column>
 
-            <img src="/img/ahmed.jpg" />
-          </Row>
+              <img src="/img/ahmed.jpg" />
+            </Row>
+          )}
         </Row>
 
         <div className="body">{props.children}</div>

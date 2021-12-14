@@ -3,34 +3,44 @@ import { useEffect, useState } from 'react';
 import { Button } from 'components/mankracht/Button';
 import { LayoutManKracht } from 'components/mankracht/LayoutManKracht';
 import { Column } from 'components/util/Column';
-import Portal from 'components/util/Portal';
 import { Row } from 'components/util/Row';
 import { Spacer } from 'components/util/Spacer';
-import { createSSIClient, ResponseStatus, SSIClient } from 'util/SSIClient';
+import {
+  createCallbackUrl,
+  createSSIClient,
+  ResponseStatus,
+} from 'util/SSIClient';
 import styles from './aanmelding.module.scss';
+import { passportKeys } from 'model/Passport';
 
 const client = createSSIClient();
 
 const Home: NextPage = () => {
-  function issue() {
-    const url = client.issueUrl(
-      'SsiTest2',
-      { firstName: 'Bert', lastName: 'Heuvel' },
-      '12345'
-    );
-    console.log(url);
-  }
-
   function verify() {
-    const url = client.verifyUrl('SsiTest2', '12348');
+    const url = client.verifyUrl(
+      'ssi_passport_v1',
+      Date.now() + '',
+      createCallbackUrl()
+    );
     document.location = url;
   }
 
   // Check if we got JWT token from eassi callback
   const [ssiData, setSsiData] = useState({
     success: false,
-    firstName: '',
-    lastName: '',
+    response: {
+      nationality: '',
+      firstName: '',
+      lastName: '',
+      birthDate: '',
+      birthPlace: '',
+      gender: '',
+      length: '',
+      bsn: '',
+      documentNumber: '',
+      documentDateOfIssue: '',
+      documentValidUntil: '',
+    },
   });
   useEffect(() => {
     const token = new URL(document.location.toString()).searchParams.get(
@@ -41,13 +51,17 @@ const Home: NextPage = () => {
     const response = client.parseVerifyResponse(token);
 
     if (response.status == ResponseStatus.success) {
-      setSsiData({ ...ssiData, ...response.data, success: true });
+      setSsiData((s) => ({
+        ...s,
+        response: response.data as any,
+        success: true,
+      }));
     }
-  }, [ssiData]);
+  }, []);
 
   return (
-    <LayoutManKracht>
-      <Row style={{ marginTop: 50 }}>
+    <LayoutManKracht hideUserInfo>
+      <Row style={{ marginTop: 50, marginBottom: 50 }}>
         <Column>
           <img src="/img/scooter.png" />
         </Column>
@@ -68,10 +82,10 @@ const Home: NextPage = () => {
 
           <img src="/img/progress_2.svg" />
 
-          <h3 style={{ textAlign: 'center' }}>Controle identiteit</h3>
-
           {ssiData.success == false && (
             <>
+              <h3 style={{ textAlign: 'center' }}>Controle identiteit</h3>
+
               <Row className={styles.step} gap={20}>
                 <p>
                   Bevestig je identiteit heel simpel via één van de wallet apps
@@ -96,29 +110,25 @@ const Home: NextPage = () => {
 
           {ssiData.success == true && (
             <>
-              <Row className={styles.step} gap={20}>
-                <p>
-                  Bedankt {ssiData.firstName}, we hebben je identiteits-gegevens
-                  succesvol ontvangen.
-                </p>
-
-                <Row className={styles.success} centerY>
-                  <img src="/img/success_check.svg" />
-                  <span>Controle geslaagd</span>
-                </Row>
+              <Row className={styles.success} centerY>
+                <img src="/img/success_check.svg" />
+                <span>Controle identiteit geslaagd</span>
               </Row>
+
+              <p>
+                Bedankt {ssiData.response.firstName}, we hebben je
+                identiteitsgegevens succesvol ontvangen.
+              </p>
 
               <Row>
                 <table className={styles.table}>
                   <tbody>
-                    <tr>
-                      <th>Voornaam</th>
-                      <td>{ssiData.firstName}</td>
-                    </tr>
-                    <tr>
-                      <th>Achternaam</th>
-                      <td>{ssiData.lastName}</td>
-                    </tr>
+                    {passportKeys.map((row) => (
+                      <tr key={row.key}>
+                        <th>{row.label}</th>
+                        <td>{ssiData.response[row.key]}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </Row>

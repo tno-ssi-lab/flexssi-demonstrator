@@ -6,21 +6,39 @@ import { Column } from 'components/util/Column';
 import { Row } from 'components/util/Row';
 import { NextPage } from 'next';
 import { FormEvent, useEffect, useState } from 'react';
-import { createSSIClient, ResponseStatus } from 'util/SSIClient';
-import { useSsiResponse } from 'hooks/useSsiResponse';
+import {
+  createCallbackUrl,
+  createSSIClient,
+  ResponseStatus,
+} from 'util/SSIClient';
 import Link from 'next/link';
+import { passportKeys } from 'model/Passport';
 
 const client = createSSIClient();
 
 const IssuePassport: NextPage = () => {
   const [formData, setFormData] = useState({
+    nationality: 'Nederlands',
     firstName: 'Bert',
     lastName: 'Heuvel',
+    birthDate: '01-01-1980',
+    birthPlace: 'Amsterdam',
+    gender: 'Male',
+    length: '1.80 m',
+    bsn: '012345678',
+    documentNumber: 'AA0123456',
+    documentDateOfIssue: '01-01-2020',
+    documentValidUntil: '01-01-2025',
   });
   const submit = (e: FormEvent) => {
     e.preventDefault();
 
-    const url = client.issueUrl('SsiTest2', formData, '12345');
+    const url = client.issueUrl(
+      'ssi_passport_v1',
+      formData,
+      Date.now() + '',
+      createCallbackUrl()
+    );
 
     document.location = url;
   };
@@ -38,7 +56,11 @@ const IssuePassport: NextPage = () => {
 
     const response = client.parseIssueResponse(token);
     if (response.status == ResponseStatus.success) {
-      setSsiData({ ...ssiData, connector: response.connector, success: true });
+      setSsiData((s) => ({
+        ...s,
+        connector: response.connector,
+        success: true,
+      }));
     }
   }, []);
 
@@ -50,29 +72,30 @@ const IssuePassport: NextPage = () => {
         <Column style={{ padding: 20 }} gap={30}>
           <h1>Stuur (voorbeeld) paspoort gegevens naar wallet</h1>
 
+          <Column className={styles.alert}>
+            <p>
+              Installeer eerst de <b>Trinsic Wallet</b> vanuit de app store.
+            </p>
+            <p>
+              Ga dan naar de instellingen, en verander <b>Network</b> naar{' '}
+              <b>Sovrin Staging Network</b>.
+            </p>
+          </Column>
+
           <form className={styles.form} onSubmit={submit}>
             <Column>
-              <Row centerY>
-                <label>Voornaam</label>
-                <input
-                  type="text"
-                  value={formData.firstName}
-                  onChange={(e) =>
-                    setFormData({ ...formData, firstName: e.target.value })
-                  }
-                />
-              </Row>
-
-              <Row centerY>
-                <label>Achternaam</label>
-                <input
-                  type="text"
-                  value={formData.lastName}
-                  onChange={(e) =>
-                    setFormData({ ...formData, lastName: e.target.value })
-                  }
-                />
-              </Row>
+              {passportKeys.map((row) => (
+                <Row centerY key={row.key}>
+                  <label>{row.label}</label>
+                  <input
+                    type="text"
+                    value={formData[row.key]}
+                    onChange={(e) =>
+                      setFormData({ ...formData, [row.key]: e.target.value })
+                    }
+                  />
+                </Row>
+              ))}
 
               <Row centerY>
                 <label> </label>

@@ -1,7 +1,7 @@
 Esatus: wisselen ledger: https://indy-ledger.ssi-lab.nl/
   auZFsiZN
 
-Trinsic: werkt ook goed, ledger is: sovern staging
+Trinsic: werkt ook goed, ledger is: Sovrin staging
 
 
 Register App

@@ -157,3 +157,8 @@ export function createSSIClient() {
       typeof window != 'undefined' ? `${document.location}?token=` : '',
   });
 }
+
+export function createCallbackUrl() {
+  const loc = document.location;
+  return `${loc.protocol}//${loc.host}${loc.pathname}?token=`;
+}
