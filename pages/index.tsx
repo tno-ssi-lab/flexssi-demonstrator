@@ -9,7 +9,7 @@ const HomePage: NextPage = () => {
   return (
     <SystemLayout>
       <Column style={{ padding: 20 }} gap={30}>
-        <h1>SSI prototype</h1>
+        <h1>FlexSSI prototype</h1>
 
         <div className={styles.mobileWarning}>
           Het lijkt erop dat je dit prototype op mobiel bekijkt. Het is de

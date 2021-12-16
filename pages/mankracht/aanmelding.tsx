@@ -11,14 +11,14 @@ import {
   ResponseStatus,
 } from 'util/SSIClient';
 import styles from './aanmelding.module.scss';
-import { passportKeys } from 'model/Passport';
+import { passportCredType, passportKeys } from 'model/Passport';
 
 const client = createSSIClient();
 
 const Home: NextPage = () => {
   function verify() {
     const url = client.verifyUrl(
-      'ssi_passport_v1',
+      passportCredType,
       Date.now() + '',
       createCallbackUrl()
     );

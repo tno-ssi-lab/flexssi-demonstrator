@@ -12,13 +12,13 @@ import {
   ResponseStatus,
 } from 'util/SSIClient';
 import Link from 'next/link';
-import { passportKeys } from 'model/Passport';
+import { passportCredType, passportKeys } from 'model/Passport';
 
 const client = createSSIClient();
 
 const IssuePassport: NextPage = () => {
   const [formData, setFormData] = useState({
-    nationality: 'Nederlands',
+    nationality: 'Nederlandse',
     firstName: 'Bert',
     lastName: 'Heuvel',
     birthDate: '01-01-1980',
@@ -34,7 +34,7 @@ const IssuePassport: NextPage = () => {
     e.preventDefault();
 
     const url = client.issueUrl(
-      'ssi_passport_v1',
+      passportCredType,
       formData,
       Date.now() + '',
       createCallbackUrl()
@@ -70,7 +70,13 @@ const IssuePassport: NextPage = () => {
 
       {ssiData.success == false && (
         <Column style={{ padding: 20 }} gap={30}>
-          <h1>Stuur (voorbeeld) paspoort gegevens naar wallet</h1>
+          <h1>Stuur je (voorbeeld) paspoort gegevens naar wallet</h1>
+
+          <p>
+            In de toekomst zal je paspoortgegevens vanuit de overheid in je
+            wallet ontvangen, maar voor dit prototype kun je deze zelf erin
+            zetten.
+          </p>
 
           <Column className={styles.alert}>
             <p>
@@ -99,7 +105,7 @@ const IssuePassport: NextPage = () => {
 
               <Row centerY>
                 <label> </label>
-                <button>Verstuur</button>
+                <button>Stuur naar mijn wallet</button>
               </Row>
             </Column>
           </form>

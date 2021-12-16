@@ -5,7 +5,8 @@
     "dev": "next dev",
     "build": "next build && next export",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "rsync": "rsync -avz out/ friendlypixel.nl:/srv/http/ssiproto01.friendlypixel.nl/"
   },
   "dependencies": {
     "@types/jsonwebtoken": "^8.5.6",

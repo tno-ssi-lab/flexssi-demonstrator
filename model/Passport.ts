@@ -12,6 +12,8 @@ export interface Passport {
   documentValidUntil: string;
 }
 
+export const passportCredType = 'ssi_passport_v2';
+
 export const passportKeys: { label: string; key: keyof Passport }[] = [
   {
     label: 'Nationaliteit',
@@ -56,9 +58,5 @@ export const passportKeys: { label: string; key: keyof Passport }[] = [
   {
     label: 'Geldig tot paspoort',
     key: 'documentValidUntil',
-  },
-  {
-    label: 'Achternaam',
-    key: 'lastName',
   },
 ];
