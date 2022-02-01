@@ -50,6 +50,47 @@ const Home: NextPage = () => {
 
     const response = client.parseVerifyResponse(token);
 
+    // Special handling for IRMA (based on slightly different credential pbdf.nijmegen.personalData)
+          // "initials": "",
+          // "firstnames": "",
+          // "prefix": "",
+          // "familyname": "",
+          // "fullname": "",
+          // "gender": "",
+          // "nationality": "", (Ja/Nee. Dutch nationality?)
+          // "surname": "",
+          // "dateofbirth": "",
+          // "cityofbirth": "",
+          // "countryofbirth": "",
+          // "over12": "",
+          // "over16": "",
+          // "over18": "",
+          // "over21": "",
+          // "over65": "",
+          // "bsn": "",
+          // "digidlevel": ""
+    if (response.status == ResponseStatus.success && response.connector == "irma") {
+      setSsiData((s) => ({
+        ...s,
+        response: {
+          nationality: response.data.nationality == "Ja" ? 'Nederlandse' : '-',
+          firstName: response.data.firstnames as string,
+          lastName: response.data.familyname as string,
+          birthDate: response.data.dateofbirth as string,
+          birthPlace: response.data.cityofbirth as string,
+          gender: response.data.gender as string,
+          length: '-',
+          bsn: response.data.bsn as string,
+          documentNumber: '-',
+          documentDateOfIssue: '-',
+          documentValidUntil: '-',
+        },
+        success: true,
+      }));
+
+      return;
+    }
+
     if (response.status == ResponseStatus.success) {
       setSsiData((s) => ({
         ...s,
