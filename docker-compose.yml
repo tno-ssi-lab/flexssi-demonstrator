@@ -1,7 +1,7 @@
 version: "3.3"
 services:
     nginx-react:
-        container_name: nginxreactapp
+        container_name: flexssi-demonstrator
         build:
             context: .
             dockerfile: Dockerfile.prod
@@ -13,12 +13,12 @@ services:
             - proxy
         labels:
             traefik.enable: "true"
-            traefik.http.routers.landing-insecure.rule: Host(`flexssi.demos.ssi-lab.nl`)
-            traefik.http.routers.landing-insecure.middlewares: redirectToHttps@file,securityHeaders@file
-            traefik.http.routers.landing.tls.certresolver: letsencrypt
-            traefik.http.routers.landing.tls.options: safeTLSOptions@file
-            traefik.http.routers.landing.middlewares: securityHeaders@file
-            traefik.http.routers.landing.rule: Host(`flexssi.demos.ssi-lab.nl`)
+            traefik.http.routers.flexssidemo-insecure.rule: Host(`flexssi.demos.ssi-lab.nl`)
+            traefik.http.routers.flexssidemo-insecure.middlewares: redirectToHttps@file,securityHeaders@file
+            traefik.http.routers.flexssidemo.tls.certresolver: letsencrypt
+            traefik.http.routers.flexssidemo.tls.options: safeTLSOptions@file
+            traefik.http.routers.flexssidemo.middlewares: securityHeaders@file
+            traefik.http.routers.flexssidemo.rule: Host(`flexssi.demos.ssi-lab.nl`)
 
 networks:
     proxy:
