@@ -1,0 +1,26 @@
+version: "3.3"
+services:
+    nginx-react:
+        container_name: nginxreactapp
+        build:
+            context: .
+            dockerfile: Dockerfile.prod
+        ports:
+            - 80
+        environment:
+            NODE_ENV: production
+        networks:
+            - proxy
+        labels:
+            traefik.enable: "true"
+            traefik.http.routers.landing-insecure.rule: Host(`flexssi.demos.ssi-lab.nl`)
+            traefik.http.routers.landing-insecure.middlewares: redirectToHttps@file,securityHeaders@file
+            traefik.http.routers.landing.tls.certresolver: letsencrypt
+            traefik.http.routers.landing.tls.options: safeTLSOptions@file
+            traefik.http.routers.landing.middlewares: securityHeaders@file
+            traefik.http.routers.landing.rule: Host(`flexssi.demos.ssi-lab.nl`)
+
+networks:
+    proxy:
+        external: true
+
