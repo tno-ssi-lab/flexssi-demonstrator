@@ -14,7 +14,7 @@ import { phaseInfoKeys } from 'model/PhaseInfo';
 const client = createSSIClient();
 
 const HomePage: NextPage = () => {
-  function verify() {
+  function retrievePhase() {
     const url = client.verifyUrl(
       'ssi_phase_info_v1',
       Date.now() + '',
@@ -23,8 +23,18 @@ const HomePage: NextPage = () => {
     document.location = url;
   }
 
+  const skillCredType = 'flexssi_skills_v2';
+  function retrieveSkills() {
+    const url = client.verifyUrl(
+      skillCredType,
+      Date.now() + '',
+      createCallbackUrl()
+    );
+    document.location = url;
+  }
+
   // Check if we got JWT token from eassi callback
-  const [ssiData, setSsiData] = useState({
+  const [phaseData, setPhaseData] = useState({
     success: false,
     response: {
       currentPhase: '',
@@ -37,6 +47,11 @@ const HomePage: NextPage = () => {
       currentWeeklyHours: '',
     },
   });
+  const [skillsData, setSkillsData] = useState({
+    success: false,
+    response: {},
+  });
+
   useEffect(() => {
     const token = new URL(document.location.toString()).searchParams.get(
       'token'
@@ -46,11 +61,21 @@ const HomePage: NextPage = () => {
     const response = client.parseVerifyResponse(token);
 
     if (response.status == ResponseStatus.success) {
-      setSsiData((s) => ({
-        ...s,
-        response: response.data as any,
-        success: true,
-      }));
+      if (response.type == 'ssi_phase_info_v1') {
+        setPhaseData((s) => ({
+          ...s,
+          response: response.data as any,
+          success: true,
+        }));
+      }
+
+      if (response.type == skillCredType) {
+        setSkillsData((s) => ({
+          ...s,
+          response: response.data as any,
+          success: true,
+        }));
+      }
     }
   }, []);
 
@@ -98,19 +123,19 @@ const HomePage: NextPage = () => {
           </table>
         </Column>
 
-        {ssiData.success == false && (
+        {phaseData.success == false && (
           <Column>
             <h5>Fase</h5>
 
             <div className={styles.sub}>Nog geen fasegegevens</div>
 
-            <a href="#" onClick={verify}>
+            <a href="#" onClick={retrievePhase}>
               Fasegegevens importeren
             </a>
           </Column>
         )}
 
-        {ssiData.success == true && (
+        {phaseData.success == true && (
           <Column>
             <h5>Fase</h5>
 
@@ -119,13 +144,44 @@ const HomePage: NextPage = () => {
                 {phaseInfoKeys.map((row) => (
                   <tr key={row.key}>
                     <th>{row.label}</th>
-                    <td>{ssiData.response[row.key]}</td>
+                    <td>{phaseData.response[row.key]}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
 
-            <a href="#" onClick={verify}>
+            <a href="#" onClick={retrievePhase}>
+              Opnieuw importeren
+            </a>
+          </Column>
+        )}
+
+        {skillsData.success == false && (
+          <Column>
+            <h5>Skills</h5>
+
+            <div className={styles.sub}>Nog geen skills</div>
+
+            <a href="#" onClick={retrieveSkills}>
+              Skills importeren
+            </a>
+          </Column>
+        )}
+
+        {skillsData.success == true && (
+          <Column>
+            <h5>Skills</h5>
+
+            {Object.entries(skillsData.response).map(([key, value]) => (
+              <p key={key}>
+                <i
+                  className={'fas fa-' + (isTrue(value) ? 'check' : 'times')}
+                ></i>{' '}
+                {key}
+              </p>
+            ))}
+
+            <a href="#" onClick={retrieveSkills}>
               Opnieuw importeren
             </a>
           </Column>
@@ -134,5 +190,9 @@ const HomePage: NextPage = () => {
     </LayoutFlexiForce>
   );
 };
+
+function isTrue(value: any): boolean {
+  return value === 'true' || value === 'ja' || value === '1' || value === true;
+}
 
 export default HomePage;

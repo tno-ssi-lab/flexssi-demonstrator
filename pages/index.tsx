@@ -48,6 +48,24 @@ const HomePage: NextPage = () => {
             </Link>
           </li>
         </ul>
+
+        <h3>
+          Voorbeeld flow 3: overdracht &quot;soft skills&quot; tussen
+          arbeidsbureau&apos;s
+        </h3>
+        <ul>
+          <li>
+            <Link href="/mankracht/werkhistorie">
+              <a>Stuur skills van &quot;manKRACHT&quot; naar wallet</a>
+            </Link>
+          </li>
+
+          <li>
+            <Link href="/flexiforce/portaal">
+              <a>Lees deze skills in bij &quot;FlexiForce&quot;</a>
+            </Link>
+          </li>
+        </ul>
       </Column>
     </SystemLayout>
   );
