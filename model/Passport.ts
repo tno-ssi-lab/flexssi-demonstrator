@@ -60,3 +60,34 @@ export const passportKeys: { label: string; key: keyof Passport }[] = [
     key: 'documentValidUntil',
   },
 ];
+
+/**
+ * The only passport keys we request (selective disclosure)
+ */
+export const disclosurePassportKeys: { label: string; key: keyof Passport }[] =
+  [
+    {
+      label: 'Nationaliteit',
+      key: 'nationality',
+    },
+    {
+      label: 'Voornamen',
+      key: 'firstName',
+    },
+    {
+      label: 'Achternaam',
+      key: 'lastName',
+    },
+    {
+      label: 'Geboorteplaats',
+      key: 'birthPlace',
+    },
+    {
+      label: 'Burgerservicenummer (BSN)',
+      key: 'bsn',
+    },
+    {
+      label: 'Geldig tot paspoort',
+      key: 'documentValidUntil',
+    },
+  ];

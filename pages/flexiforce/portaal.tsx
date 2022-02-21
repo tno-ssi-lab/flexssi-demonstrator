@@ -10,6 +10,7 @@ import {
 } from 'util/SSIClient';
 import { useEffect, useState } from 'react';
 import { phaseInfoKeys } from 'model/PhaseInfo';
+import { disclosureSoftSkills, skillEassiType } from 'model/Skills';
 
 const client = createSSIClient();
 
@@ -23,12 +24,12 @@ const HomePage: NextPage = () => {
     document.location = url;
   }
 
-  const skillCredType = 'flexssi_skills_v2';
   function retrieveSkills() {
     const url = client.verifyUrl(
-      skillCredType,
+      skillEassiType,
       Date.now() + '',
-      createCallbackUrl()
+      createCallbackUrl(),
+      Object.keys(disclosureSoftSkills)
     );
     document.location = url;
   }
@@ -69,7 +70,7 @@ const HomePage: NextPage = () => {
         }));
       }
 
-      if (response.type == skillCredType) {
+      if (response.type == skillEassiType) {
         setSkillsData((s) => ({
           ...s,
           response: response.data as any,
@@ -165,6 +166,11 @@ const HomePage: NextPage = () => {
             <a href="#" onClick={retrieveSkills}>
               Skills importeren
             </a>
+
+            <div>
+              We vragen alleen skills op die relevant zijn voor je huidige
+              solicitaties.
+            </div>
           </Column>
         )}
 

@@ -11,7 +11,11 @@ import {
   ResponseStatus,
 } from 'util/SSIClient';
 import styles from './aanmelding.module.scss';
-import { passportCredType, passportKeys } from 'model/Passport';
+import {
+  disclosurePassportKeys,
+  passportCredType,
+  passportKeys,
+} from 'model/Passport';
 
 const client = createSSIClient();
 
@@ -20,7 +24,8 @@ const Home: NextPage = () => {
     const url = client.verifyUrl(
       passportCredType,
       Date.now() + '',
-      createCallbackUrl()
+      createCallbackUrl(),
+      disclosurePassportKeys.map((r) => r.key)
     );
     document.location = url;
   }
@@ -51,29 +56,32 @@ const Home: NextPage = () => {
     const response = client.parseVerifyResponse(token);
 
     // Special handling for IRMA (based on slightly different credential pbdf.nijmegen.personalData)
-          // "initials": "",
-          // "firstnames": "",
-          // "prefix": "",
-          // "familyname": "",
-          // "fullname": "",
-          // "gender": "",
-          // "nationality": "", (Ja/Nee. Dutch nationality?)
-          // "surname": "",
-          // "dateofbirth": "",
-          // "cityofbirth": "",
-          // "countryofbirth": "",
-          // "over12": "",
-          // "over16": "",
-          // "over18": "",
-          // "over21": "",
-          // "over65": "",
-          // "bsn": "",
-          // "digidlevel": ""
-    if (response.status == ResponseStatus.success && response.connector == "irma") {
+    // "initials": "",
+    // "firstnames": "",
+    // "prefix": "",
+    // "familyname": "",
+    // "fullname": "",
+    // "gender": "",
+    // "nationality": "", (Ja/Nee. Dutch nationality?)
+    // "surname": "",
+    // "dateofbirth": "",
+    // "cityofbirth": "",
+    // "countryofbirth": "",
+    // "over12": "",
+    // "over16": "",
+    // "over18": "",
+    // "over21": "",
+    // "over65": "",
+    // "bsn": "",
+    // "digidlevel": ""
+    if (
+      response.status == ResponseStatus.success &&
+      response.connector == 'irma'
+    ) {
       setSsiData((s) => ({
         ...s,
         response: {
-          nationality: response.data.nationality == "Ja" ? 'Nederlandse' : '-',
+          nationality: response.data.nationality == 'Ja' ? 'Nederlandse' : '-',
           firstName: response.data.firstnames as string,
           lastName: response.data.familyname as string,
           birthDate: response.data.dateofbirth as string,
@@ -127,25 +135,35 @@ const Home: NextPage = () => {
             <>
               <h3 style={{ textAlign: 'center' }}>Controle identiteit</h3>
 
-              <Row className={styles.step} gap={20}>
-                <p>
-                  Bevestig je identiteit heel simpel via één van de wallet apps
-                  op je mobiele telefoon.
-                </p>
+              <Column gap={30}>
+                <Row className={styles.step} gap={20} centerY>
+                  <Column gap={5}>
+                    <p>
+                      Bevestig heel simpel via één van de wallet apps op je
+                      mobiele telefoon.
+                    </p>
+                    <p>
+                      We vragen alleen de gegevens op die nodig zijn om je
+                      identiteit te bevestigen.
+                    </p>
+                  </Column>
 
-                <Button onClick={verify}>Controleer identiteit</Button>
-              </Row>
+                  <Button tabIndex={0} onTrigger={verify}>
+                    Controleer identiteit
+                  </Button>
+                </Row>
 
-              <Row className={styles.step} gap={20}>
-                <p>
-                  Heb je geen wallet app? Kom dan langs bij een van onze
-                  vestigingen.
-                </p>
+                <Row className={styles.step} gap={20}>
+                  <p>
+                    Heb je geen wallet app? Kom dan langs bij een van onze
+                    vestigingen.
+                  </p>
 
-                <Button outlined disabled>
-                  Maak afspraak
-                </Button>
-              </Row>
+                  <Button outlined disabled>
+                    Maak afspraak
+                  </Button>
+                </Row>
+              </Column>
             </>
           )}
 
@@ -164,7 +182,7 @@ const Home: NextPage = () => {
               <Row>
                 <table className={styles.table}>
                   <tbody>
-                    {passportKeys.map((row) => (
+                    {disclosurePassportKeys.map((row) => (
                       <tr key={row.key}>
                         <th>{row.label}</th>
                         <td>{ssiData.response[row.key]}</td>

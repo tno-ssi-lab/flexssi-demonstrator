@@ -1,10 +1,13 @@
 import { CSSProperties, ReactNode } from 'react';
+import { KEYCODES } from 'util/keycodes';
 import classes from '../../util/classes';
 import styles from './Button.module.scss';
 
 export function Button({
   outlined,
   disabled,
+
+  onTrigger,
 
   className,
   style,
@@ -14,6 +17,8 @@ export function Button({
 }: {
   outlined?: boolean;
   disabled?: boolean;
+
+  onTrigger?: () => void; // both click and keyboard enter
 
   className?: string;
   style?: CSSProperties;
@@ -30,6 +35,17 @@ export function Button({
         disabled ? styles.disabled : undefined,
         className
       )}
+      onClick={onTrigger}
+      onKeyDown={
+        onTrigger
+          ? (e) => {
+              if (e.keyCode == KEYCODES.enter) {
+                e.preventDefault();
+                onTrigger();
+              }
+            }
+          : undefined
+      }
       style={{
         ...style,
       }}

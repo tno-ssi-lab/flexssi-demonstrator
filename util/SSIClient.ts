@@ -57,11 +57,19 @@ export class SSIClient {
     }
   }
 
-  verifyUrl(type: string, requestId: string, callbackUrl?: string): string {
+  /**
+   * @param attributes [Optional]  attributes requested in selective disclosure requests.
+   */
+  verifyUrl(
+    type: string,
+    requestId: string,
+    callbackUrl?: string,
+    attributes?: string[]
+  ): string {
     const callback = this.getCallbackUrl(callbackUrl);
 
     const token = this.encodeJWT(
-      { type, callbackUrl: callback },
+      { type, attributes, callbackUrl: callback },
       { subject: 'credential-verify-request', jwtid: requestId }
     );
     return this.constructRequestUrl('verify', token);

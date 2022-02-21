@@ -8,6 +8,7 @@ import { Spacer } from 'components/util/Spacer';
 import { createCallbackUrl, createSSIClient } from 'util/SSIClient';
 import styles from './werkhistorie.module.scss';
 import { format as dateFormat } from 'date-fns';
+import { softSkills, skillEassiType } from 'model/Skills';
 
 const client = createSSIClient();
 
@@ -66,11 +67,8 @@ const WorkHistory: NextPage = () => {
 
   function issueSkillCred() {
     const url = client.issueUrl(
-      'flexssi_skills_v2',
-      {
-        'Vorkheftruck A': 'ja',
-        'Vorkheftruck B': 'nee',
-      },
+      skillEassiType,
+      softSkills,
       `${Date.now()}`,
       createCallbackUrl()
     );
@@ -197,12 +195,11 @@ const WorkHistory: NextPage = () => {
           <Column gap={20} style={{ maxWidth: 800 }}>
             <h4>Skills</h4>
 
-            <p>
-              <i className="fas fa-check"></i> Vorkheftruck certificaat A
-            </p>
-            <p>
-              <i className="fas fa-times"></i> Vorkheftruck certificaat B
-            </p>
+            {Object.keys(softSkills).map((skill) => (
+              <p>
+                <i className="fas fa-check"></i> {skill}
+              </p>
+            ))}
 
             <Row>
               <Button outlined onClick={issueSkillCred}>
