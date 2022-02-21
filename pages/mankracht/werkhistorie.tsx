@@ -196,7 +196,7 @@ const WorkHistory: NextPage = () => {
             <h4>Skills</h4>
 
             {Object.keys(softSkills).map((skill) => (
-              <p>
+              <p key={skill}>
                 <i className="fas fa-check"></i> {skill}
               </p>
             ))}
