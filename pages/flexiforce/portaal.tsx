@@ -169,7 +169,7 @@ const HomePage: NextPage = () => {
 
             <div>
               We vragen alleen skills op die relevant zijn voor je huidige
-              solicitaties.
+              sollicitaties.
             </div>
           </Column>
         )}
